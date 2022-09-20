@@ -1,22 +1,66 @@
 package s22.Bookstore.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Book {
-	private String title, author, isbn;
-	private Integer year;
-	private Long price;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	private String title, author;
+	private int bookYear;
+	private String isbn;
+	private double price;
+	
+	@ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
 	
 	public Book() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Book(String title, String author, String isbn, Integer year, Long price) {
+	public Book(Long id, String title, String author, int bookYear, String isbn, double price, Category category) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.bookYear = bookYear;
+		this.isbn = isbn;
+		this.price = price;
+		this.category = category;
+	}
+	
+	public Book(String title, String author, int bookYear, String isbn, double price, Category category) {
 		super();
 		this.title = title;
 		this.author = author;
+		this.bookYear = bookYear;
 		this.isbn = isbn;
-		this.year = year;
 		this.price = price;
+		this.category = category;
+	}
+
+	public Book(String title, String author, int bookYear, String isbn, double price) {
+		super();
+		this.title = title;
+		this.author = author;
+		this.bookYear = bookYear;
+		this.isbn = isbn;
+		this.price = price;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -35,6 +79,14 @@ public class Book {
 		this.author = author;
 	}
 
+	public int getBookYear() {
+		return bookYear;
+	}
+
+	public void setBookYear(int bookYear) {
+		this.bookYear = bookYear;
+	}
+
 	public String getIsbn() {
 		return isbn;
 	}
@@ -43,27 +95,30 @@ public class Book {
 		this.isbn = isbn;
 	}
 
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
-	}
-
-	public Long getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Long price) {
+	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", author=" + author + ", isbn=" + isbn + ", year=" + year + ", price=" + price
-				+ "]";
+		if (this.category != null)
+			return "Book [id=" + id + ", title=" + title + ", author=" + author + ", bookYear=" + bookYear + ", isbn="
+					+ isbn + ", price=" + price + ", category=" +  this.getCategory() + "]";
+		else
+			return "Book [id=" + id + ", title=" + title + ", author=" + author + ", bookYear=" + bookYear + ", isbn="
+					+ isbn + ", price=" + price + "]";
 	}
-	
-	
+
 }
